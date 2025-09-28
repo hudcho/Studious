@@ -11,7 +11,7 @@
 ### Assignment #2 - Software Project Management Plan
 | ID | Task                                                                                    | Person Responsible| Due Date  |
 |----|-----------------------------------------------------------------------------------------|------------------|------------|
-| 1  | - Business requirements and technical scope                                             | Name             | Sept 16    | 
+| 1  | - Business requirements and technical scope                                             | Eddie            | Sept 16    | 
 | 2  | - Scope and limitations                                                                 | Hudson           | Sept 16    |
 | 3  | - Contribute to WBS Spreadsheet                                                         | Name             | Sept 16    |
 | 4  | - Contribute to WBS Spreadsheet                                                         | Name             | Sept 16    |

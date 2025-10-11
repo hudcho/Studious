@@ -1,12 +1,11 @@
 Created by Hudson Cho -> Discord is @wiggilyworm. if you need to contact me
 ## **Task Assignment Table**
-
 | Task | Name      |
 | ---- | --------- |
-|      | Hudson    |
-|      | Eddie     |
-|      | Teherence |
-|      | Jaden     |
+|    1 |        |
+|    2 |        |
+|    3 | Hudson |
+|    4 |        |
 
 ## **Task Details**
 #### Task 1

@@ -2,7 +2,7 @@ Created by Hudson Cho -> Discord is @wiggilyworm. if you need to contact me
 ## **Task Assignment Table**
 | Task | Name      |
 | ---- | --------- |
-|    1 |           |
+|    1 | Eddie       |
 |    2 | Tehrence  |
 |    3 | Hudson    |
 |    4 |           |

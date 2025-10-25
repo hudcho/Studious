@@ -1,0 +1,17 @@
+Studious Core Functionalities
+
+1.) Direct Messaging: Studious will provide users with one-on-one or group messaging features using Socket.io. Must be implemented using HTTPS. Real-time updates using Socket.io and React(frontend).
+2.) User Management: Users will have to create customizable accounts (Account Creation/Login information using React). Store login credentials using PostgreSQL(backend).
+3.) Interactive Study Tools: Studious will consist of a Pomodoro timer, game-based quizzes, flashcards, etc.
+4.) File-Sharing: Users will be able to share files/documents.
+5.)
+
+Libraries/Platforms Implemented:
+*React 
+*Vercel
+*Node.js
+*PostgreSQL
+*Socket.io
+Operating Systems: Windows 10+, macOS 12+, Linux (Ubuntu 20.04+)
+Browsers: Chrome (v110+), Edge (v110+), Firefox (v100+), Safari (v15+)
+

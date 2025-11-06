@@ -74,7 +74,7 @@ async function deleteUser(id) {
 
 module.exports = { 
     createUser,
-    getPrivateUser, getPublicUser, getPasswordHash,
+    getPrivateUser, getPublicUser, getPasswordHash, 
     updateUsername, updatePassword,
     deleteUser
 };

@@ -34,30 +34,47 @@ async function getPublicUser(id) {
     )
 }
 
+// Retreives the password hash for a user specified by their ID
+// Used for authentication
+async function getPasswordHash(id) {
+    const result = await pool.query(
+        'SELECT password_hash FROM users WHERE id=$1',
+        [id]
+    );
+    return result.rows[0];
+}
+
 // Updates the username of an user specified by their ID
 async function updateUsername(id, username) {
     const result = await pool.query(
-        'UPDATE user SET username = $2 WHERE id = $1 RETURNING *',
+        'UPDATE users SET username = $2 WHERE id = $1 RETURNING *',
         [id, username]
     );    
     return result.rows[0];
 }
 
-// Updates the password of a user specified by their ID. Password should first be hashed in users-controller.js
+// Updates the password of a user specified by their ID
+// Password should first be hashed in users-controller.js
 async function updatePassword(id, password_hash) {
     const result = await pool.query(
         'UPDATE users SET password_hash = $2 WHERE id = $1 RETURNING *',
         [id, password_hash]
     );
-    return result.rows[0]
+    return result.rows[0];
 }
 
-//updateUserPassword_hash
-
-//deleteUser
+// Delets an entry for a user specified by their ID
+async function deleteUser(id) {
+    const result = await pool.query(
+        'DELETE FROM users WHERE id=$1 RETURNING *',
+        [id]
+    );
+    return result.rows[0];
+}
 
 module.exports = { 
     createUser,
-    getPrivateUser, getPublicUser,
-    updateUsername, updatePassword
+    getPrivateUser, getPublicUser, getPasswordHash,
+    updateUsername, updatePassword,
+    deleteUser
 };

@@ -1,0 +1,221 @@
+File Sharing Code
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StudyShare | File Sharing App</title>
+    <style>
+      /* ---------- General Styles ---------- */
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f7f8fc;
+        color: #333;
+      }
+
+      header {
+        background-color: #4b6cb7;
+        background-image: linear-gradient(315deg, #4b6cb7 0%, #182848 74%);
+        color: white;
+        text-align: center;
+        padding: 1.5rem;
+      }
+
+      header h1 {
+        margin: 0;
+        font-size: 2rem;
+      }
+
+      header p {
+        margin: 0.3rem 0 0;
+        font-size: 1rem;
+        opacity: 0.9;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 2rem auto;
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        color: #182848;
+        margin-bottom: 1rem;
+      }
+
+      /* ---------- Upload Form ---------- */
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        margin-bottom: 2rem;
+      }
+
+      input[type="text"],
+      input[type="file"] {
+        padding: 0.6rem;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 1rem;
+      }
+
+      button {
+        background-color: #4b6cb7;
+        color: white;
+        border: none;
+        padding: 0.8rem;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        transition: background 0.3s;
+      }
+
+      button:hover {
+        background-color: #3954a1;
+      }
+
+      /* ---------- File List ---------- */
+      .file-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+
+      .file-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.8rem 1rem;
+        background-color: #f0f4ff;
+        border: 1px solid #cdd7ff;
+        border-radius: 6px;
+      }
+
+      .file-info {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .file-info span {
+        font-weight: 600;
+        color: #182848;
+      }
+
+      .file-item a {
+        text-decoration: none;
+        color: #4b6cb7;
+        font-weight: 500;
+      }
+
+      .file-item a:hover {
+        text-decoration: underline;
+      }
+
+      .empty {
+        text-align: center;
+        color: #666;
+        margin-top: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>📚 StudyShare</h1>
+      <p>Share study materials and collaborate with your classmates</p>
+    </header>
+
+    <div class="container">
+      <h2>Upload & Share a File</h2>
+      <form id="uploadForm">
+        <input type="text" id="username" placeholder="Your Name" required />
+        <input type="file" id="fileInput" required />
+        <button type="submit">Upload File</button>
+      </form>
+
+      <h2>Shared Files</h2>
+      <div id="fileList" class="file-list">
+        <!-- Shared files will appear here -->
+      </div>
+    </div>
+
+    <script>
+      // ---------- Mock File Data ----------
+      const sharedFiles = [
+        { user: "Alice", name: "Biology_Notes.pdf", url: "#" },
+        { user: "David", name: "History_Essay.docx", url: "#" },
+        { user: "Sophia", name: "Math_Formulas.xlsx", url: "#" },
+      ];
+
+      const fileList = document.getElementById("fileList");
+      const uploadForm = document.getElementById("uploadForm");
+      const usernameInput = document.getElementById("username");
+      const fileInput = document.getElementById("fileInput");
+
+      // ---------- Function to Display Files ----------
+      function renderFiles() {
+        fileList.innerHTML = "";
+
+        if (sharedFiles.length === 0) {
+          fileList.innerHTML =
+            '<p class="empty">No shared files yet. Upload one!</p>';
+          return;
+        }
+
+        sharedFiles.forEach((file) => {
+          const fileItem = document.createElement("div");
+          fileItem.classList.add("file-item");
+
+          fileItem.innerHTML = `
+          <div class="file-info">
+            <span>${file.user}</span>
+            <small>${file.name}</small>
+          </div>
+          <a href="${file.url}" download>Download</a>
+        `;
+          fileList.appendChild(fileItem);
+        });
+      }
+
+      // ---------- Handle Upload ----------
+      uploadForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const user = usernameInput.value.trim();
+        const file = fileInput.files[0];
+
+        if (!user || !file) {
+          alert("Please enter your name and select a file.");
+          return;
+        }
+
+        // In a real app, you'd send this to your backend using fetch() or axios
+        // const formData = new FormData();
+        // formData.append("user", user);
+        // formData.append("file", file);
+        // fetch("/upload", { method: "POST", body: formData });
+
+        sharedFiles.push({
+          user: user,
+          name: file.name,
+          url: "#", // would be the uploaded file link from backend
+        });
+
+        renderFiles();
+        uploadForm.reset();
+        alert("File shared successfully!");
+      });
+
+      // ---------- Initial Render ----------
+      renderFiles();
+    </script>
+  </body>
+</html>

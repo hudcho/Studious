@@ -44,7 +44,7 @@ async function updateCircleName(id, name) {
     return result.rows[0];
 }
 
-// Deletes circle from database by ID
+// Deletes circle from database by ID   
 async function deleteCircle(id) {
     const result = await pool.query(
         'DELETE FROM circles WHERE id=$1 RETURNING *',

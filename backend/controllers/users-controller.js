@@ -17,7 +17,7 @@ async function createUser(req, res) {
     const { username, password } = req.body;
 
     if (!username || !password) {
-        return res.status(400).json({ error: 'Missing one or more required fields '});
+        return res.status(400).json({ error: 'Missing one or more required fields'});
     }
     
 
@@ -53,19 +53,50 @@ async function getUserById(req, res) {
             return res.status(404).json({ error: 'User not found'});
         }
 
-        safeUser = sanitizeUser(user);
+        const safeUser = sanitizeUser(user);
         return res.status(200).json(safeUser);
     }
     catch (err) {
         console.error(err);
-        res.status(500).json({ error: 'Server error' });
+        return res.status(500).json({ error: 'Server error' });
     }
 }
 
+async function updateUser(req, res) {
+    const { id } = req.params;
+    const { username, password } = req.body;
+    const existingUser = await usersDb.getPrivateUser(id);
 
+    if(!existingUser) {
+        return res.status(404).json({ error: 'User not found' });
+    }
+
+    if(!username && !password) {
+        return res.status(400).json({ error: 'Nothing to update! '});
+    }
+    try {
+        if(username) {
+            await usersDb.updateUsername(id, username);
+        }
+        if(password) {
+            const saltRounds = 10;
+            const hashedPassword = await bcrypt.hash(password, saltRounds);
+            await usersDb.updatePassword(id, hashedPassword);
+        }
+
+        const updatedUser = await usersDb.getPrivateUser(id);
+        const safeUser = sanitizeUser(updatedUser);
+        return res.status(200).json(safeUser);
+
+    }
+    catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Server error' });
+    }
+}
 
 module.exports={
     createUser,
     getUserById,
-    w
+    updateUser
 }

@@ -28,7 +28,7 @@ async function getUserFriends(user_id) {
 
 // Deletes a friend from the database
 async function deleteFriend(id) {
-    const result = away pool.query(
+    const result = await pool.query(
         'DELETE FROM friends WHERE id=$1 RETURNING *',
         [id]
     );

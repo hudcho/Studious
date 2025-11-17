@@ -17,19 +17,10 @@ async function createCircle(name, created_by) {
     return result.rows[0];
 }
 
-// Retreives circle name by ID
-async function getCircleName(id) {
+// Return circle information by id
+async function getCircle(id) {
     const result = await pool.query(
-        'SELECT name FROM circles WHERE id=$1',
-        [id]
-    );
-    return result.rows[0];
-}
-
-// Retreives circle owner by ID
-async function getCircleOwner(id) {
-    const result = await pool.query(
-        'SELECT created_by FROM circles WHERE id=$1',
+        'SELECT * FROM circles WHERE id=$1',
         [id]
     );
     return result.rows[0];
@@ -56,7 +47,7 @@ async function deleteCircle(id) {
 
 module.exports = {
     createCircle,
-    getCircleName, getCircleOwner,
+    getCircle,
     updateCircleName,
     deleteCircle
 }

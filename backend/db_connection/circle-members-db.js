@@ -37,6 +37,6 @@ async function deleteCircleMember(id) {
 
 module.exports={
     createCircleMember,
-    getCircleMember,
+    getCircleMembers,
     deleteCircleMember
 }

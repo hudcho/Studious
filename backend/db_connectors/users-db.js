@@ -47,7 +47,7 @@ async function getPasswordHash(id) {
 // Updates the username of an user specified by their ID
 async function updateUsername(id, username) {
     const result = await pool.query(
-        'UPDATE users SET username = $2 WHERE id = $1 RETURNING *',
+        'UPDATE users SET username=$2 WHERE id=$1 RETURNING *',
         [id, username]
     );    
     return result.rows[0];
@@ -57,7 +57,7 @@ async function updateUsername(id, username) {
 // Password should first be hashed in users-controller.js
 async function updatePassword(id, password_hash) {
     const result = await pool.query(
-        'UPDATE users SET password_hash = $2 WHERE id = $1 RETURNING *',
+        'UPDATE users SET password_hash=$2 WHERE id=$1 RETURNING *',
         [id, password_hash]
     );
     return result.rows[0];

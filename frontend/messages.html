@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Studious Chat Mock</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- MAIN APP WRAPPER -->
+  <div class="app">
+
+    <!-- SIDEBAR: holds app name, group list, add-partner button, and settings -->
+    <div class="sidebar">
+
+      <!-- App logo/name text -->
+      <div class="app-name">STUDIOUS</div>
+
+      <!-- Label describing the list below -->
+      <div class="sidebar-label">GROUPS</div>
+
+      <!-- List of groups (here, only one: “App Admin”) -->
+      <div class="group-list">
+        <!-- Single group item representing the “App Admin” group -->
+        <div class="group-item">
+          <!-- Round avatar icon for the group -->
+          <div class="group-avatar"></div>
+
+          <!-- Name of the group -->
+          <div>App Admin</div>
+
+          <!-- Blue dot showing this group is active/selected -->
+          <div class="group-status"></div>
+        </div>
+
+        <!-- Button to add more study partners / groups -->
+        <button class="add-partner-btn">
+          + Add Study Partners
+        </button>
+      </div>
+
+      <!-- Settings text pinned to bottom of sidebar/must change to make button later or figure just make the cogwheel a button -->
+      <div class="settings">⚙ Settings</div>
+    </div>
+
+    <!-- MAIN CHAT PANEL: title, empty space, composer, and action buttons -->
+    <div class="main">
+
+      <!-- Title of the current view / group -->
+      <div class="main-header">Study Group</div>
+
+      <!-- Empty area where message history would normally show -->
+      <div class="chat-empty-space"></div>
+
+      <!-- Message composer bar -->
+      <div class="composer">
+        <!-- Text box where user types a message -->
+        <input
+          class="composer-input"
+          type="text"
+          placeholder="Type a message..."
+        >
+
+        <!-- Send button -->
+        <button class="composer-send">Send</button>
+      </div>
+
+      <!-- Row of action buttons -->
+      <div class="action-row">
+        <!-- Quiz Button -->
+        <button class="action-btn">Quiz</button>
+
+        <!-- Flashcard Button -->
+        <button class="action-btn">Flashcards</button>
+
+        <!-- Poll Button -->
+        <button class="action-btn">Poll</button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

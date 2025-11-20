@@ -26,12 +26,12 @@ async function getPrivateUser(id) {
     return result.rows[0];
 }
 
-// Retreives public information by ID 
-async function getPublicUser(id) {
+async function getPrivateUserByUsername(username) {
     const result = await pool.query(
-        'SELECT id, username FROM users WHERE id=$1',
-        [id]
-    )
+        'SELECT * FROM users WHERE username=$1',
+        [username]
+    );
+    return result.rows[0]; 
 }
 
 // Retreives the password hash for a user specified by their ID
@@ -74,7 +74,7 @@ async function deleteUser(id) {
 
 module.exports = { 
     createUser,
-    getPrivateUser, getPublicUser, getPasswordHash, 
+    getPrivateUser, getPrivateUserByUsername, getPasswordHash, 
     updateUsername, updatePassword,
     deleteUser
 };

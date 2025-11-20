@@ -19,10 +19,10 @@ router.post('/', usersController.createUser);
 router.patch('/:id', usersController.updateUser);            
 
 // GET /users/:id
-router.get('/:username', authenticateToken, usersController.getUserById);
+router.get('/id/:id', authenticateToken, usersController.getUserById);
 
 // GET /users/:id
-router.get('/id/:id', authenticateToken, usersController.getUserById);
+router.get('/:username', authenticateToken, usersController.getUserById);
 
 // DELETE /users/:id
 router.delete('/:id', usersController.deleteUser);

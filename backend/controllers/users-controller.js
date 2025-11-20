@@ -1,7 +1,7 @@
 /* 
 AUTHOR: Hudson Cho
 CREATED: 11.16.2025
-UPDATED: 11.16.2025
+UPDATED: 11.20.2025
 DESCRIPTION:
     The `users-controller.js` file is used for sanitizing data, performing input validation, and other 
     logic tasks that are not handled by server.js or db_connections

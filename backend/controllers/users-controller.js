@@ -92,8 +92,27 @@ async function updateUser(req, res) {
     }
 }
 
+async function deleteUser(req, res) {
+    const { id } = req.params;
+    const existingUser = await usersDb.getPrivateUser(id);
+
+    if (!existingUser) {
+        return resizeTo.status(404).json({ error: 'User not found' });
+    }
+    try {
+        const deletedUser = await usersDb.deleteUser(id);
+        const safeUser = sanitizeUser(deletedUser);
+        return res.status(200).json(safeUser);
+    }
+    catch (err) {
+        console.error(err);
+        return resizeTo.status(500).json({ error: 'Server error' });
+    }
+}
+
 module.exports={
     createUser,
     getUserById,
-    updateUser
+    updateUser,
+    deleteUser
 }

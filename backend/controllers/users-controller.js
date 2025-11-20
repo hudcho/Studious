@@ -7,9 +7,9 @@ DESCRIPTION:
     logic tasks that are not handled by server.js or db_connections
 */
 
-const usersDb = require('./db_connections');
+const usersDb = require('../db_connectors/users-db.js');
 const bcrypt = require('bcrypt');
-const sanitizeUser = require('./util/sanitizeUsers.js');
+const sanitizeUser = require('../util/sanitizeUser.js');
 
 
 // Create user

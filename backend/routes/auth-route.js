@@ -13,3 +13,5 @@ const authController  = require('../controllers/auth-controller');
 
 // Used for login 
 router.post('/login', authController.login);
+
+module.exports = router;

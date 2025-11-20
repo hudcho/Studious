@@ -12,7 +12,7 @@ const bcrypt = require('bcrypt');
 const sanitizeUser = require('./util/sanitizeUsers.js');
 
 
-// Creates a user
+// Create user
 async function createUser(req, res) {
     const { username, password } = req.body;
 
@@ -20,15 +20,12 @@ async function createUser(req, res) {
         return res.status(400).json({ error: 'Missing one or more required fields'});
     }
     
-
     try {
-        
-        // Hash password using bcrypt
+        // hash password using bcrypt
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
-
         const newUser = await usersDb.createUser(username, hashedPassword);
-        
+        // return only public information
         const safeUser = sanitizeUser(newUser)
         return res.status(201).json(safeUser);
     }
@@ -38,21 +35,20 @@ async function createUser(req, res) {
     }
 }
 
-// Return public information about a user
+// return public information about a user
 async function getUserById(req, res) {
     const { id } = req.params;
 
     if(!id) {
         return res.status(400).json({ error: 'ID field missing'});
     }
-
     try {
         const user = await usersDb.getPrivateUser(id);
 
         if(!user){
             return res.status(404).json({ error: 'User not found'});
         }
-
+        // return only public information
         const safeUser = sanitizeUser(user);
         return res.status(200).json(safeUser);
     }
@@ -62,6 +58,7 @@ async function getUserById(req, res) {
     }
 }
 
+// Update a users username or password
 async function updateUser(req, res) {
     const { id } = req.params;
     const { username, password } = req.body;
@@ -70,7 +67,6 @@ async function updateUser(req, res) {
     if(!existingUser) {
         return res.status(404).json({ error: 'User not found' });
     }
-
     if(!username && !password) {
         return res.status(400).json({ error: 'Nothing to update! '});
     }
@@ -85,6 +81,7 @@ async function updateUser(req, res) {
         }
 
         const updatedUser = await usersDb.getPrivateUser(id);
+        // return only public information
         const safeUser = sanitizeUser(updatedUser);
         return res.status(200).json(safeUser);
 

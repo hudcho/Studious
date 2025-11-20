@@ -58,9 +58,34 @@ async function getUserById(req, res) {
     }
 }
 
+async function getUserByUsername(req, res) {
+    const { username } = req.params;
+    if(!username) {
+        return res.status(400).json({ error: 'ID field missing'});
+    }
+    try {
+        const user = await usersDb.getPrivateUserByUsername(username);
+
+        if(!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        const safeUser = sanitizeUser(user);
+        return res.status(500).json(safeUser);
+    }
+    catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Server error' });
+    }
+}
+
 // Update a users username or password
 async function updateUser(req, res) {
     const { id } = req.params;
+    if(!id) {
+        return res.status(400).json({ error: 'ID field missing'});
+    }
+ 
     const { username, password } = req.body;
     const existingUser = await usersDb.getPrivateUser(id);
 

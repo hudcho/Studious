@@ -10,6 +10,7 @@ DESCRIPTION:
 const express = require('express');
 const router = express.Router();
 const usersController  = require('../controllers/users-controller');
+const authenticateToken = require('../middleware/auth');
 
 // POST /users
 router.post('/', usersController.createUser);               
@@ -18,7 +19,7 @@ router.post('/', usersController.createUser);
 router.patch('/:id', usersController.updateUser);            
 
 // GET /users/:id
-router.get('/:id', usersController.getUserById);
+router.get('/:id', authenticateToken, usersController.getUserById);
 
 // DELETE /users/:id
 router.delete('/:id', usersController.deleteUser);

@@ -16,6 +16,12 @@ async function createCircle(req, res) {
     }
     
     try {
+        // Makes sure circle name doesnt already exist
+        const preexistingCircle = await circlesDb.getCircleByName(name);
+        if (preexistingCircle && preexistingCircle.id != circle.id) {
+            return res.status(400).json({ error: 'Circle name already taken'});
+        } 
+
         const newCircle = await circlesDb.createCircle(name, createdBy);
         return res.status(201).json(newCircle);
     }
@@ -103,14 +109,14 @@ async function deleteCircle(req, res) {
         return res.status(400).json({ error: 'ID field missing'});
     }
 
-    existingCircle = await circlesDb.getCircle(id);
-    if(!existingCircle) {
-        return res.status(404).json({ error: 'Circle not found'});
-    }
-
     try {
+        existingCircle = await circlesDb.getCircle(id);
+        if(!existingCircle) {
+            return res.status(404).json({ error: 'Circle not found'});
+        }
+
         const deletedCircle = await circlesDb.deleteCircle(id);
-        return res.status(200).json(deleteCircle)
+        return res.status(200).json(deletedCircle)
     }
     catch (err) {
         console.error(err);

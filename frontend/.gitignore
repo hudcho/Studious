@@ -5,11 +5,8 @@
 /.pnp
 .pnp.js
 
-# testing
-/coverage
-
-# production
-/build
+#used for secrets
+.env
 
 # misc
 .DS_Store

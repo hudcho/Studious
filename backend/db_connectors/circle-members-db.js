@@ -45,10 +45,10 @@ async function getByCircleAndUser(user_id, circle_id) {
 }
 
 // Removes a member from a circle by removing the connection between circle_id and user_id from the database
-async function deleteCircleMember(id) {
+async function deleteCircleMember(user_id, circle_id) {
     const result = await pool.query(
-        'DELETE FROM circle_members WHERE id=$1 RETURNING *',
-        [id]
+        'DELETE FROM circle_members WHERE user_id=$1 AND circle_id=$2 RETURNING *',
+        [user_id, circle_id]
     );
     return result.rows[0]
 }

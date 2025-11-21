@@ -4,7 +4,10 @@ CREATED: 11.21.2025
 UPDATED: 11.21.2025
 DESCRIPTION:
     Handles business logic for members-db.js, processing requests from routes
-    and interacting with the database or other services as needed.
+    and interacting with the database or other services as needed. 
+    used for understanding a processing requests regarding member connection 
+    memberconnection = user_id circle_id pair that signifies a user is a member
+    of a circle
 */
 
 const { json } = require('express');
@@ -63,7 +66,29 @@ async function getAllCircles(req, res) {
     }  
 }
 
-module.exports = {
-    addMember,
+// Removes a member from a circle
+async function removeMember(req, res) {
+    const { userID, circleID } = req.body;
+    if(!userID || !circleID) {
+        return res.status(400).json({ error: 'Missing one or more required fields'});
+    }
+    try {
+        const existingMember = await membersDb.getByCircleAndUser(userID,circleID);
+        if(!existingMember) {
+            return res.status(400).json({ error: 'User is not a member'});
+        }
+
+        const removedMember = await membersDb.deleteCircleMember(userID, circleID);
+        return res.status(200).json(removedMember);
+    }
+    catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Server error'});
+    }
 }
 
+module.exports = {
+    addMember,
+    getAllCircles, getAllMembers,
+    removeMember
+}

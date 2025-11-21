@@ -26,6 +26,15 @@ async function getCircleMembers(circle_id) {
     return result.rows[0];
 }
 
+// Return the row containing matching user_id and circle_id
+async function getByCircleAndUser(user_id, circle_id) {
+    const result = await pool.query(
+        'SELECT * FROM circle_members WHERE user_id=$1 AND circle_id=$2',
+        [user_id, circle_id]
+    )
+    return result.rows[0];
+}
+
 // Removes a member from a circle by removing the connection between circle_id and user_id from the database
 async function deleteCircleMember(id) {
     const result = await pool.query(
@@ -37,6 +46,6 @@ async function deleteCircleMember(id) {
 
 module.exports={
     createCircleMember,
-    getCircleMembers,
+    getCircleMembers, getByCircleAndUser,
     deleteCircleMember
 }

@@ -1,10 +1,12 @@
 const express = require('express');
 const usersRoute = require('./routes/users-route');
 const authRoute = require('./routes/auth-route');
+const cors = require('cors');
 
 const app = express();
 const PORT = 3000;
 
+app.use(cors());
 app.use(express.json());
 
 // Route HTTP requests to /users to users-route

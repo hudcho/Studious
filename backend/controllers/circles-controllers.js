@@ -8,10 +8,9 @@ DESCRIPTION:
 
 const circlesDb = require('../db_connectors/circles-db');
 
+// create circle
 async function createCircle(req, res) {
     const { name, createdBy } = req.body;
-// create circle
-
     if (!name || !createdBy) {
         return res.status(400).json({ error: 'Missing one or more required fields'});
     }
@@ -26,6 +25,7 @@ async function createCircle(req, res) {
     }
 }
 
+// Return circle information
 async function getCircle(req, res) {
     const { id } = req.params;
 
@@ -58,9 +58,8 @@ async function getAllCircles(req, res) {
     }
 }
 
-async function updateCircle(req, res) {
-
 // Update a users username or password
+async function updateCircle(req, res) {
     const { id } = req.params;
     if(!id) {
         return res.status(400).json({ error: 'ID field missing'});
@@ -86,14 +85,32 @@ async function updateCircle(req, res) {
     }
 }
 
+// Delete circle
+async function deleteCircle(req, res) {
+    const { id } = req.params;
+    if(!id) {
+        return res.status(400).json({ error: 'ID field missing'});
+    }
 
+    existingCircle = await circlesDb.getCircle(id);
+    if(!existingCircle) {
+        return res.status(404).json({ error: 'Circle not found'});
+    }
 
-// update cirlce
-// delete circle
+    try {
+        const deletedCircle = await circlesDb.deleteCircle(id);
+        return res.status(200).json(deleteCircle)
+    }
+    catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Server error'});
+    }
+}
 
 
 module.exports = {
     createCircle,
     getCircle, getAllCircles,
-    updateCircle
+    updateCircle,
+    deleteCircle
 }

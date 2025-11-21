@@ -31,6 +31,38 @@ async function addMember(req, res) {
     }
 }
 
+// Return all members of a circle
+async function getAllMembers(req, res) {
+    const { circleID } = req.params;
+    if(!circleID) {
+        return res.status(400).json({ error: 'Missing circleID field'});
+    }
+    try {
+        const members = await membersDb.getCircleMembers(circleID);
+        return res.status(200).json(members)
+    }
+    catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Server error'});
+    }
+}
+
+// Returns circles that a user is a member of
+async function getAllCircles(req, res) {
+    const { userID } = req.params;
+    if(!userID) {
+        return res.status(400).json({ error: 'Missing userID field'});
+    }
+    try {
+        const circles = await membersDb.getUsersCircles(userID);
+        return res.status(200).json(circles);
+    }
+    catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Server error'});
+    }  
+}
+
 module.exports = {
     addMember,
 }

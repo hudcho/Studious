@@ -20,9 +20,18 @@ async function createCircleMember(circle_id, user_id) {
 // Returns the members of a specific circle
 async function getCircleMembers(circle_id) {
     const result = await pool.query(
-        'SELECT * FROM circle_members WHERE circle_id=$1',
+        'SELECT user_id FROM circle_members WHERE circle_id=$1',
         [circle_id]
     );
+    return result.rows[0];
+}
+
+// Returns the circles a user is a member of
+async function getUsersCircles(user_id) {
+    const result = await pool.query(
+        'SELECT circle_id FROM circle_members WHERE user_id=$1',
+        [user_id]
+    )
     return result.rows[0];
 }
 
@@ -46,6 +55,6 @@ async function deleteCircleMember(id) {
 
 module.exports={
     createCircleMember,
-    getCircleMembers, getByCircleAndUser,
+    getCircleMembers, getByCircleAndUser, getUsersCircles,
     deleteCircleMember
 }

@@ -60,22 +60,33 @@ async function getAllCircles(req, res) {
 
 // Update a users username or password
 async function updateCircle(req, res) {
-    const { id } = req.params;
-    if(!id) {
-        return res.status(400).json({ error: 'ID field missing'});
-    }
- 
-    const { name } = req.body;
-    const existingCircle = await circlesDb.getCircle(id);
-
-    if(!existingCircle) {
-        return res.status(404).json({ error: 'Circle not found' });
-    }
-    //fix this logic VVVV
-    if(!name || name == existingCircle.name) {
-        return res.status(400).json({ error: 'Nothing to update! '});
-    }
+        const { id } = req.params;
+        if(!id) {
+            return res.status(400).json({ error: 'ID field missing'});
+        }
+    
+        const { name } = req.body;
+        if(!name) {
+            return res.status(400).json({ error: 'Circle field missing'});
+        }
     try {
+        const circle= await circlesDb.getCircle(id);
+
+        if(!circle) {
+            return res.status(404).json({ error: 'Circle not found' });
+        }
+
+       // Checks if name is the same
+        if(name == circle.name) {
+            return res.status(400).json({ error: 'Nothing to update! '});
+        }
+
+        // Makes sure circle name doesnt already exist
+        const preexistingCircle = await circlesDb.getCircleByName(name);
+        if (preexistingCircle && preexistingCircle.id != circle.id) {
+            return res.status(400).json({ error: 'Circle name already taken'});
+        } 
+
         const updatedCircle = await circlesDb.updateCircleName(id,name);
         return res.status(200).json(updatedCircle);
     }

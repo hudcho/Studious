@@ -26,6 +26,16 @@ async function getCircle(id) {
     return result.rows[0];
 }
 
+// Return circle information by name
+async function getCircleByName(name) {
+    const result = await pool.query(
+        'SELECT * FROM circles WHERE name=$1',
+        [name]
+    )
+    return result.rows[0];
+}
+
+// Return all circles in the database
 async function getAllCircles() { 
     const result = await pool.query (
         'SELECT * FROM circles'
@@ -54,8 +64,7 @@ async function deleteCircle(id) {
 
 module.exports = {
     createCircle,
-    getCircle, getAllCircles,
+    getCircle, getAllCircles, getCircleByName,
     updateCircleName,
     deleteCircle
 }
-

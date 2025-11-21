@@ -3,11 +3,8 @@ AUTHOR: Hudson Cho
 CREATED: 11.21.2025
 UPDATED: 11.21.2025
 DESCRIPTION:
-    Handles business logic for members-db.js, processing requests from routes
-    and interacting with the database or other services as needed. 
-    used for understanding a processing requests regarding member connection 
-    memberconnection = user_id circle_id pair that signifies a user is a member
-    of a circle
+    Handles business logic for members-db.js, processing requests from routes to add,
+    remove, or query about a member in a circle
 */
 
 const { json } = require('express');

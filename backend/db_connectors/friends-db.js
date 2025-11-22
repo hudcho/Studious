@@ -27,7 +27,7 @@ async function getUserFriends(user_id) {
 }
 
 // Retrieves friend entry containing user_id and friend_id 
-async function getFriend(user_id, friend_id) {
+async function getFriendship(user_id, friend_id) {
     const result = await pool.query(
         'SELECT * FROM friends WHERE (user_id=$1 AND friend_id=$2) OR (user_id=$2 AND friend_id=$1)',
         [user_id, friend_id]
@@ -36,9 +36,9 @@ async function getFriend(user_id, friend_id) {
 }
 
 // Deletes a friend from the database
-async function deleteFriend(id) {
+async function deleteFriendship(user_id, friend_id) {
     const result = await pool.query(
-        'DELETE FROM friends WHERE id=$1 RETURNING *',
+        'DELETE FROM friends WHERE =$1 (user_id=$1 AND friend_id=$2) OR (user_id=$2 AND friend_id=$1) RETURNING *',
         [id]
     );
     return result.rows[0];
@@ -47,6 +47,6 @@ async function deleteFriend(id) {
 module.exports = {
     createFriend,
     getUserFriends,
-    getFriend,
-    deleteFriend
+    getFriendship,
+    deleteFriendship
 }

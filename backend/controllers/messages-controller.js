@@ -53,7 +53,8 @@ async function sendMessage(req, res) {
 
 // Return all messages between two users
 async function getDirectMessages(req, res) {
-    const { senderID, recipientID } = req.query;
+    const senderID = req.user.id;
+    const { recipientID } = req.query;
     if(!senderID || !recipientID) {
         return res.status(400).json({ error: 'Missing one or more required fields'});
     }
@@ -73,7 +74,7 @@ async function getDirectMessages(req, res) {
     
 // Return all messages sent to a circle
 async function getCircleMessages(req, res) {
-    const { circleID } = req.query;
+    const circleID = req.params.circleID;
     if(!circleID) {
         return res.status(400).json({ error: 'Missing required circleID field'});
     }

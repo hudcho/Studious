@@ -26,6 +26,15 @@ async function getUserFriends(user_id) {
     return result.rows[0];
 }
 
+// Retrieves friend entry containing user_id and friend_id 
+async function getFriend(user_id, friend_id) {
+    const result = await pool.query(
+        'SELECT * FROM friends WHERE (user_id=$1 AND friend_id=$2) OR (user_id=$2 AND friend_id=$1)',
+        [user_id, friend_id]
+    )
+    return result.rows[0];
+}
+
 // Deletes a friend from the database
 async function deleteFriend(id) {
     const result = await pool.query(
@@ -38,5 +47,6 @@ async function deleteFriend(id) {
 module.exports = {
     createFriend,
     getUserFriends,
+    getFriend,
     deleteFriend
 }

@@ -3,13 +3,14 @@ AUTHOR: Hudson Cho
 CREATED: 11.21.2025
 UPDATED: 11.21.2025
 DESCRIPTION:
-
+    Handles business logic for messagess-db.js, processing requests from routes to
+    send messages to a user or circle and get messages sent between two users
+    or get messages sent to a circle
 */
 /*
                     ADD LATER:
     - Pagination? 
-    - Verify sender and user id, dont allow users to send on behalf 
-    of other users
+    - Verify sender and recipient not the same,
     - Verify sender, recipient, circle all exist before sending
 */
 

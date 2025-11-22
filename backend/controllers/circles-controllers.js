@@ -10,15 +10,16 @@ const circlesDb = require('../db_connectors/circles-db');
 
 // create circle
 async function createCircle(req, res) {
-    const { name, createdBy } = req.body;
-    if (!name || !createdBy) {
-        return res.status(400).json({ error: 'Missing one or more required fields'});
+    const createdBy = req.user.id;
+    const { name  } = req.body;
+    if (!name) {
+        return res.status(400).json({ error: 'Missing name field'});
     }
     
     try {
         // Makes sure circle name doesnt already exist
         const preexistingCircle = await circlesDb.getCircleByName(name);
-        if (preexistingCircle && preexistingCircle.id != circle.id) {
+        if (preexistingCircle) {
             return res.status(400).json({ error: 'Circle name already taken'});
         } 
 
@@ -33,18 +34,18 @@ async function createCircle(req, res) {
 
 // Return circle information
 async function getCircle(req, res) {
-    const { id } = req.params;
+    const { circleID } = req.params;
 
-    if(!id) {
+    if(!circleID) {
         return res.status(400).json({ error: 'Missing ID' });
     }
     try {
-        const circle = await circlesDb.getCircle(id);
+        const circle = await circlesDb.getCircle(circleID);
         if (!circle){
-            return res.result(404).json({ error: 'Circle not found' });
+            return res.status(404).json({ error: 'Circle not found' });
         }
         
-        return res.result(200).json(circle);
+        return res.status(200).json(circle);
     }
     catch (err) {
         console.log(err);
@@ -56,7 +57,7 @@ async function getCircle(req, res) {
 async function getAllCircles(req, res) {
     try {
         const circles = await circlesDb.getAllCircles();
-        return res.result(200).json(circles);
+        return res.status(200).json(circles);
     }
     catch (err) {
         console.error(err);
@@ -66,17 +67,17 @@ async function getAllCircles(req, res) {
 
 // Update a users username or password
 async function updateCircle(req, res) {
-        const { id } = req.params;
-        if(!id) {
+        const { circleID } = req.params;
+        if(!circleID) {
             return res.status(400).json({ error: 'ID field missing'});
         }
     
         const { name } = req.body;
         if(!name) {
-            return res.status(400).json({ error: 'Circle field missing'});
+            return res.status(400).json({ error: 'Name field missing'});
         }
     try {
-        const circle= await circlesDb.getCircle(id);
+        const circle= await circlesDb.getCircle(circleID);
 
         if(!circle) {
             return res.status(404).json({ error: 'Circle not found' });
@@ -93,7 +94,7 @@ async function updateCircle(req, res) {
             return res.status(400).json({ error: 'Circle name already taken'});
         } 
 
-        const updatedCircle = await circlesDb.updateCircleName(id,name);
+        const updatedCircle = await circlesDb.updateCircleName(circleID, name);
         return res.status(200).json(updatedCircle);
     }
     catch (err) {
@@ -104,18 +105,18 @@ async function updateCircle(req, res) {
 
 // Delete circle
 async function deleteCircle(req, res) {
-    const { id } = req.params;
-    if(!id) {
+    const { circleID } = req.params;
+    if(!circleID) {
         return res.status(400).json({ error: 'ID field missing'});
     }
 
     try {
-        existingCircle = await circlesDb.getCircle(id);
+        const existingCircle = await circlesDb.getCircle(circleID);
         if(!existingCircle) {
             return res.status(404).json({ error: 'Circle not found'});
         }
 
-        const deletedCircle = await circlesDb.deleteCircle(id);
+        const deletedCircle = await circlesDb.deleteCircle(circleID);
         return res.status(200).json(deletedCircle)
     }
     catch (err) {

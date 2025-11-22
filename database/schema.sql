@@ -13,7 +13,7 @@ create table friends (
 create table circles (
 	id serial primary key,
 	name TEXT unique not null,
-	created_by TEXT references users(id)
+	created_by INT references users(id)
 );
 
 create table circle_members (

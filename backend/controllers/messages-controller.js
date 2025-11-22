@@ -5,6 +5,14 @@ UPDATED: 11.21.2025
 DESCRIPTION:
 
 */
+/*
+                    ADD LATER:
+    - Pagination? 
+    - Verify sender and user id, dont allow users to send on behalf 
+    of other users
+    - Verify sender, recipient, circle all exist before sending
+*/
+
 
 const messagesDb = require ('../db_connectors/messages-db');
 
@@ -40,4 +48,48 @@ async function sendMessage(req, res) {
         return res.status(500).json({ error: 'Server error'});
     }
 }
+
+// Return all messages between two users
+async function getDirectMessages(req, res) {
+    const { senderID, recipientID } = req.query;
+    if(!senderID || !recipientID) {
+        return res.status(400).json({ error: 'Missing one or more required fields'});
+    }
+    if(isNaN(senderID) || isNaN(recipientID)) {
+        return res.status(400).json({ error: 'Invalid data type for senderID or recipientID'});
+    }
+
+    try {
+        const messages = await messagesDb.getDirectMessages(senderID, recipientID);
+        return res.status(200).json(messages);
+    }
+    catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Server error'});
+    }
+}
     
+// Return all messages sent to a circle
+async function getCircleMessages(req, res) {
+    const { circleID } = req.query;
+    if(!circleID) {
+        return res.status(400).json({ error: 'Missing required circleID field'});
+    }
+    if(isNaN(circleID)) {
+        return res.status(400).json({ error: 'Invalid data type for circleID'});
+    }
+
+    try {
+        const messages = await messagesDb.getCircleMessages(circleID)
+        return res.status(200).json(messages);
+    }
+    catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Server error'});
+    }
+} 
+
+module.exports = {
+    sendMessage,
+    getDirectMessages, getCircleMessages
+}

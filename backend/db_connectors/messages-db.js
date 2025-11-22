@@ -22,13 +22,22 @@ async function createMessage(content, sender_id, recipient_id=null, circle_id=nu
     return result.rows[0];
 }
 
-// Retreives message data by ID
-async function getMessage(id) {
+// Retreives all messages sent between sender_id and recipient_id 
+async function getDirectMessages(sender_id, recipient_id) {
     const result = await pool.query(
-        'SELECT * FROM messages WHERE id=$1',
-        [id]
+        'SELECT * FROM messages WHERE (sender_id=$1 AND recipient_id=$2) OR (sender_id=$2 AND recipient_id=$1) ORDER BY sent_at DESC',
+        [sender_id, recipient_id]
     );
-    return result.rows[0];
+    return result.rows;
+}
+
+// Retreives all messages sent to circle_id
+async function getCircleMessages(circle_id) {
+    const result = await pool.query(
+        'SELECT * FROM messages WHERE circle_id=$1 ORDER BY sent_at DESC',
+        [circle_id]
+    )
+    return result.rows;
 }
 
 // Deletes message from database by ID   
@@ -43,6 +52,6 @@ async function deleteMessage(id) {
 
 module.exports = {
     createMessage,
-    getMessage,
+    getDirectMessages, getCircleMessages,
     deleteMessage
 }

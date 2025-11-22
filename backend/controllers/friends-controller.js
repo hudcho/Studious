@@ -15,7 +15,7 @@ async function addFriend(req, res) {
     if(!userID || !newFriendID) {
         return res.status(400).json({ error: 'Missing one or more required fields'});
     }
-    if(isNaN(userID || isNaN(newFriendID))) {
+    if(isNaN(userID) || isNaN(newFriendID)) {
         return res.status(400).json({ error: 'Invalid data type for userID or newFriendID'});
     }
 
@@ -64,7 +64,7 @@ async function getFriendship(req, res) {
     if(!userID || !otherUserID) {
         return res.status(400).json({ error: 'Missing one or more required fields'});
     }
-    if(isNaN(userID || isNaN(otherUserID))) {
+    if(isNaN(userID) || isNaN(otherUserID)) {
         return res.status(400).json({ error: 'Invalid data type for userID or otherUserID'});
     }
     if(userID == otherUserID) {

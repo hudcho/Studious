@@ -76,7 +76,7 @@ async function getUserByUsername(req, res) {
         }
 
         const safeUser = sanitizeUser(user);
-        return res.status(500).json(safeUser);
+        return res.status(200).json(safeUser);
     }
     catch (err) {
         console.error(err);

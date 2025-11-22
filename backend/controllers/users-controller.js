@@ -125,9 +125,9 @@ async function updateUser(req, res) {
 // Delete a user
 async function deleteUser(req, res) {
     const authUserID = req.user.id;
-    const targetUserID = parseInt(req.params.id);
+    const targetUserID = Number(req.params.id);
 
-    if(!targetUserID.isInteger() || targetUserID <= 0) {
+    if(!Number.isInteger(targetUserID) || targetUserID <= 0) {
         return res.status(400).json({ error: 'Invalid userID'});
     }
     // Users can only delete their own accounts
@@ -135,7 +135,7 @@ async function deleteUser(req, res) {
         return res.status(403).json({ error: 'Forbidden' });
     }
    try {
-        const existingUser = usersDb.getUser(targetUserID);
+        const existingUser = await usersDb.getUser(targetUserID);
         if(!existingUser) {
             return res.status(404).json({ error: 'User not found' });
         }

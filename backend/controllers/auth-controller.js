@@ -8,7 +8,7 @@ DESCRIPTION:
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const usersDb = require('../db_connectors/users-db');
+const usersDb = require('../database/users-db');
 const { JWT_SECRET } = require('../config/env');
 
 async function login(req, res) {

@@ -13,7 +13,7 @@ FIX LATER:
 - Validate user is owner of circle before deleting member
 */
 
-const membersDb = require('../db_connectors/circle-members-db');
+const membersDb = require('../database/circle-members-db');
 
 // Adds a member to a circle
 async function addMember(req, res) {

@@ -16,7 +16,7 @@ const authenticateToken = require('../middleware/auth');
 router.post('/', usersController.createUser);               
 
 // PATCH /users/:id
-router.patch('/:id', usersController.updateUser);            
+router.patch('/:id', authenticateToken, usersController.updateUser);            
 
 // GET /users/:id
 router.get('/id/:id', authenticateToken, usersController.getUserById);
@@ -25,6 +25,6 @@ router.get('/id/:id', authenticateToken, usersController.getUserById);
 router.get('/:username', authenticateToken, usersController.getUserById);
 
 // DELETE /users/:id
-router.delete('/:id', usersController.deleteUser);
+router.delete('/:id', authenticateToken, usersController.deleteUser);
 
 module.exports = router;

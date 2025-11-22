@@ -18,7 +18,8 @@ const messagesDb = require ('../db_connectors/messages-db');
 
 // Creates a message and validates its properties
 async function sendMessage(req, res) {
-    const { content, senderID, recipientID, circleID } = req.body;
+    const senderID = req.user.id;
+    const { content, recipientID, circleID } = req.body;
 
     if(!senderID || (!recipientID && !circleID)) {
         return res.status(400).json({ error: 'Missing one or more required fields'});

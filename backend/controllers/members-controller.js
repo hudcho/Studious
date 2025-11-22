@@ -7,7 +7,12 @@ DESCRIPTION:
     remove, or query about a member in a circle
 */
 
-const { json } = require('express');
+/*
+FIX LATER:
+- Validate use is a member of a circle before adding member to circle
+- Validate user is owner of circle before deleting member
+*/
+
 const membersDb = require('../db_connectors/circle-members-db');
 
 // Adds a member to a circle
@@ -49,7 +54,7 @@ async function getAllMembers(req, res) {
 
 // Returns circles that a user is a member of
 async function getAllCircles(req, res) {
-    const { userID } = req.params;
+    const userID = req.user.id
     if(!userID) {
         return res.status(400).json({ error: 'Missing userID field'});
     }
@@ -65,7 +70,7 @@ async function getAllCircles(req, res) {
 
 // Removes a member from a circle
 async function removeMember(req, res) {
-    const { userID, circleID } = req.body;
+    const { userID, circleID } = req.params;
     if(!userID || !circleID) {
         return res.status(400).json({ error: 'Missing one or more required fields'});
     }

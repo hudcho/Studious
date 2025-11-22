@@ -18,7 +18,7 @@ async function createUser(username, passwordHash) {
 }
 
 // Retreives private information by ID, BACKEND USE ONLY: SHOULD NOT BE RETURNED TO server.js
-async function getPrivateUser(id) {
+async function getUser(id) {
     const result = await pool.query(
         'SELECT * FROM users WHERE id=$1',
         [id]
@@ -26,7 +26,7 @@ async function getPrivateUser(id) {
     return result.rows[0];
 }
 
-async function getPrivateUserByUsername(username) {
+async function getUserByUsername(username) {
     const result = await pool.query(
         'SELECT * FROM users WHERE username=$1',
         [username]
@@ -74,7 +74,7 @@ async function deleteUser(id) {
 
 module.exports = { 
     createUser,
-    getPrivateUser, getPrivateUserByUsername, getPasswordHash, 
+    getUser, getUserByUsername, getPasswordHash, 
     updateUsername, updatePassword,
     deleteUser
 };

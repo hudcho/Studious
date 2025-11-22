@@ -123,16 +123,15 @@ async function updateUser(req, res) {
 }
 
 async function deleteUser(req, res) {
-    const { id } = req.params;
+    const id = req.user.id;
     const existingUser = await usersDb.getUser(id);
 
     if (!existingUser) {
-        return resizeTo.status(404).json({ error: 'User not found' });
+        return res.status(404).json({ error: 'User not found' });
     }
     try {
-        const deletedUser = await usersDb.deleteUser(id);
-        const safeUser = sanitizeUser(deletedUser);
-        return res.status(200).json(safeUser);
+        await usersDb.deleteUser(id);
+        return res.status(204).send();
     }
     catch (err) {
         console.error(err);

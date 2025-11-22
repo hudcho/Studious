@@ -7,7 +7,7 @@ const authenticateToken = (req, res, next) => {
     const token = authHeader && authHeader.split(' ')[1];
 
     if(!token) {
-        return res.status(401).json({ error: 'Missing authentication token provided'});
+        return res.status(401).json({ error: 'Missing authentication token'});
     }
 
     jwt.verify(token, JWT_SECRET, (err, user) => {

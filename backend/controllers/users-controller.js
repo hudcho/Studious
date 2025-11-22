@@ -66,7 +66,7 @@ async function getUserById(req, res) {
 async function getUserByUsername(req, res) {
     const { username } = req.params;
     if(!username) {
-        return res.status(400).json({ error: 'ID field missing'});
+        return res.status(400).json({ error: 'Username field missing'});
     }
     try {
         const user = await usersDb.getUserByUsername(username);
@@ -86,31 +86,43 @@ async function getUserByUsername(req, res) {
 
 // Update a users username or password
 async function updateUser(req, res) {
-    const id = req.user.id;
-    if(!id) {
-        return res.status(400).json({ error: 'ID field missing'});
+    const authUserID = req.user.id;
+     const targetUserID = Number(req.params.id);
+    if(!Number.isInteger(targetUserID) || targetUserID <= 0) {
+        return res.status(400).json({ error: 'Invalid userID'});
     }
- 
-    const { username, password } = req.body;
-    const existingUser = await usersDb.getUser(id);
+    // Users can only update their own accounts
+    if (authUserID !== targetUserID) {
+        return res.status(403).json({ error: 'Forbidden' });
+    }
 
+    // Validates req.body to have the correct fields
+    const allowedKeys = ["username", "password"];
+    const keys = Object.keys(req.body || {});
+    if(!keys.every(k => allowedKeys.includes(k))) {
+        return res.status(400).json({ error: 'Invalid input: only username and password allowed'});
+    }
+
+    const { username, password } = req.body || {};
+     if(!username && !password) {
+        return res.status(400).json({ error: 'Missing one or more required fields'});
+    }
+
+    try {
+    const existingUser = await usersDb.getUser(targetUserID);
     if(!existingUser) {
         return res.status(404).json({ error: 'User not found' });
     }
-    if(!username && !password) {
-        return res.status(400).json({ error: 'Nothing to update! '});
-    }
-    try {
         if(username) {
-            await usersDb.updateUsername(id, username);
+            await usersDb.updateUsername(targetUserID, username);
         }
         if(password) {
             const saltRounds = 10;
             const hashedPassword = await bcrypt.hash(password, saltRounds);
-            await usersDb.updatePassword(id, hashedPassword);
+            await usersDb.updatePassword(targetUserID, hashedPassword);
         }
 
-        const updatedUser = await usersDb.getUser(id);
+        const updatedUser = await usersDb.getUser(targetUserID);
         // return only public information
         const safeUser = sanitizeUser(updatedUser);
         return res.status(200).json(safeUser);

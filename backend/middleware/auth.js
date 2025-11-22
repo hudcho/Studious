@@ -7,12 +7,12 @@ const authenticateToken = (req, res, next) => {
     const token = authHeader && authHeader.split(' ')[1];
 
     if(!token) {
-        return res.status(401).json({ error: 'No token provided'});
+        return res.status(401).json({ error: 'Missing authentication token provided'});
     }
 
     jwt.verify(token, JWT_SECRET, (err, user) => {
         if (err) {
-            return res.status(403).json({ error: 'Token is invalid or expired'});
+            return res.status(403).json({ error: 'Authentication token is invalid or expired'});
         }
         
         req.user = user;

@@ -6,7 +6,7 @@ DESCRIPTION:
     The `circles-controller.js` is used to perform middle logic to be applied onto circles-db.js 
 */
 
-const circlesDb = require('../db_connectors/circles-db');
+const circlesDb = require('../database/circles-db');
 
 // create circle
 async function createCircle(req, res) {

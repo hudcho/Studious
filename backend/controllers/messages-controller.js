@@ -15,7 +15,7 @@ DESCRIPTION:
 */
 
 
-const messagesDb = require ('../db_connectors/messages-db');
+const messagesDb = require ('../database/messages-db');
 
 // Creates a message and validates its properties
 async function sendMessage(req, res) {

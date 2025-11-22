@@ -6,7 +6,7 @@ DESCRIPTION:
 
 */
 
-const friendshipsDb = require('../db_connectors/friends-db');
+const friendshipsDb = require('../database/friends-db');
 
 // Add friend to users friendlist
 async function addFriend(req, res) {

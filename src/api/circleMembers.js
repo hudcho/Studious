@@ -1,15 +1,18 @@
-const BASE_URL = "http://localhost:3000";
+// ../api/circleMembers.js
 
-export async function getCircleMembers(circle_id) {
-  const res = await fetch(`${BASE_URL}/circle-members/${circle_id}`);
+export async function fetchCircleMembers(circleId) {
+  const res = await fetch(`/api/circles/${circleId}/members`);
+  if (!res.ok) throw new Error("Failed to fetch circle members");
   return res.json();
 }
 
-export async function addCircleMember(circle_id, user_id) {
-  const res = await fetch(`${BASE_URL}/circle-members`, {
+export async function addCircleMember(circleId, user_id) {
+  const res = await fetch(`/api/circles/${circleId}/members`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ circle_id, user_id }),
+    body: JSON.stringify({ user_id }),
   });
+
+  if (!res.ok) throw new Error("Failed to add member");
   return res.json();
 }

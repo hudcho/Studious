@@ -31,9 +31,6 @@ app.use('/members', membersRoute)
 // Route HTTP requests to /auth to auth-route
 app.use('/auth', authRoute)
 
-
-
-
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`)
 });

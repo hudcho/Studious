@@ -23,3 +23,4 @@ router.get('/:circleID/members', authenticateToken, membersController.getAllMemb
 // Route DELETE requests to delete a member from a user
 router.delete('/:circleID/members/:userID', authenticateToken, membersController.removeMember);
 
+module.exports = router;

@@ -22,7 +22,7 @@ router.patch('/:id', authenticateToken, usersController.updateUser);
 router.get('/id/:id', authenticateToken, usersController.getUserById);
 
 // GET /users/:id
-router.get('/:username', authenticateToken, usersController.getUserById);
+router.get('/:username', usersController.getUserByUsername);
 
 // DELETE /users/:id
 router.delete('/:id', authenticateToken, usersController.deleteUser);

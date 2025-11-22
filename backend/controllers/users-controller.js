@@ -21,6 +21,11 @@ async function createUser(req, res) {
     }
     
     try {
+        const existingUser = await usersDb.getUserByUsername(username);
+        if(existingUser) {
+            return res.status(400).json({ error: "Username taken"});
+        }
+
         // hash password using bcrypt
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);

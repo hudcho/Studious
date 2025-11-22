@@ -40,7 +40,7 @@ async function addFriend(req, res) {
 
 // Returns all friends of a user
 async function getUserFriends(req, res) {
-    const { userID } = req.params;
+    const userID = req.user.id;
     if(!userID) {
         return res.status(400).json({ error: 'Missing userID field'});
     }
@@ -86,11 +86,12 @@ async function getFriendship(req, res) {
 
 // Delete a friendship between two users
 async function removeFriend(req, res) {
-    const { userID, friendID } = req.params
+    const userID = req.user.id;
+    const { friendID } = req.params
     if(!userID || !friendID) {
         return res.status(400).json({ error: 'Missing one or more required fields'});
     }
-    if(isNaN(userID || isNaN(friendID))) {
+    if(isNaN(userID) || isNaN(friendID)) {
         return res.status(400).json({ error: 'Invalid data type for userID or friendID'});
     }
     if(userID == friendID){

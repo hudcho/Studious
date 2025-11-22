@@ -98,6 +98,11 @@ async function removeFriend(req, res) {
     }
 
     try {
+        const friendship = await friendshipsDb.getFriendship(userID, friendID);
+        if(!friendship) {
+            return res.status(404).json({ error: 'Users are not friends'});
+        }
+
         const deleteFriendship = await friendshipsDb.deleteFriendship(userID, friendID);
         return res.status(204).send();
     }

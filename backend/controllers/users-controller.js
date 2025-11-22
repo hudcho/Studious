@@ -48,7 +48,7 @@ async function getUserById(req, res) {
         return res.status(400).json({ error: 'ID field missing'});
     }
     try {
-        const user = await usersDb.getPrivateUser(id);
+        const user = await usersDb.getUser(id);
 
         if(!user){
             return res.status(404).json({ error: 'User not found'});
@@ -69,7 +69,7 @@ async function getUserByUsername(req, res) {
         return res.status(400).json({ error: 'ID field missing'});
     }
     try {
-        const user = await usersDb.getPrivateUserByUsername(username);
+        const user = await usersDb.getUserByUsername(username);
 
         if(!user) {
             return res.status(404).json({ error: 'User not found' });
@@ -92,7 +92,7 @@ async function updateUser(req, res) {
     }
  
     const { username, password } = req.body;
-    const existingUser = await usersDb.getPrivateUser(id);
+    const existingUser = await usersDb.getUser(id);
 
     if(!existingUser) {
         return res.status(404).json({ error: 'User not found' });
@@ -110,7 +110,7 @@ async function updateUser(req, res) {
             await usersDb.updatePassword(id, hashedPassword);
         }
 
-        const updatedUser = await usersDb.getPrivateUser(id);
+        const updatedUser = await usersDb.getUser(id);
         // return only public information
         const safeUser = sanitizeUser(updatedUser);
         return res.status(200).json(safeUser);
@@ -124,7 +124,7 @@ async function updateUser(req, res) {
 
 async function deleteUser(req, res) {
     const { id } = req.params;
-    const existingUser = await usersDb.getPrivateUser(id);
+    const existingUser = await usersDb.getUser(id);
 
     if (!existingUser) {
         return resizeTo.status(404).json({ error: 'User not found' });
@@ -136,7 +136,7 @@ async function deleteUser(req, res) {
     }
     catch (err) {
         console.error(err);
-        return resizeTo.status(500).json({ error: 'Server error' });
+        return res.status(500).json({ error: 'Server error' });
     }
 }
 

@@ -13,7 +13,7 @@ const { JWT_SECRET } = require('../config/env');
 
 async function login(req, res) {
     const { username, password } = req.body;
-    const user = await usersDb.getPrivateUserByUsername(username);
+    const user = await usersDb.getUserByUsername(username);
 
     // Checks user exists in database
     if (!user){

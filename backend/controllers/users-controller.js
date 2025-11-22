@@ -37,7 +37,7 @@ async function createUser(req, res) {
 
 // return public information about a user
 async function getUserById(req, res) {
-    const { id } = req.params;
+    const id = req.user.id;
 
     if(!id) {
         return res.status(400).json({ error: 'ID field missing'});
@@ -81,7 +81,7 @@ async function getUserByUsername(req, res) {
 
 // Update a users username or password
 async function updateUser(req, res) {
-    const { id } = req.params;
+    const id = req.user.id;
     if(!id) {
         return res.status(400).json({ error: 'ID field missing'});
     }

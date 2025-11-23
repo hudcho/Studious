@@ -4,7 +4,7 @@ import LoginPage from "./pages/LoginPage";
 import Dashboard from "./pages/Dashboard";
 
 function App() {
-
+  const [token, setToken] = React.useState(localStorage.getItem("token"));
 
 
   return (
@@ -19,7 +19,7 @@ function App() {
       {/* Route to dashboard page*/}
       <Route
         path="/dashboard"
-        element={token ? <Dashboard /> : <Navigate to="/login" />}
+        element={token ? <Dashboard setToken={setToken} /> : <Navigate to="/login" />}
       />
 
       {/* Defaults to login if no token or if unkown*/}

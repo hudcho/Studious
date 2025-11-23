@@ -1,5 +1,5 @@
 function ProfileCard() {
-  const user = JSON.parse(localStorage.getItem("user")); 
+  const user = localStorage.getItem("user"); 
 
   if (!user) return null;
   return (

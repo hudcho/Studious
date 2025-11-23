@@ -34,10 +34,14 @@ export default function Loginform() {
                 setError(data.error);
                 return;
             }
+            if (response.ok) {
+                // save token and username
+                localStorage.setItem("token", data.token);
+                localStorage.setItem("username", data.username);
 
-            console.log("Login successful. Token = ", data.token);
-            localStorage.setItem("token", data.token);
-            localStorage.setItem("user", data.username);
+                // optionally redirect
+                window.location.href = "/dashboard"; // or use React Router's useNavigate
+            }
         }
         catch (err) {
             setError("Error connecting to backend:", err);

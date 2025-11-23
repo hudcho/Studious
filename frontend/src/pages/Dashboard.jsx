@@ -1,4 +1,5 @@
 import LogoutButton from "../components/LogoutButton";
+import MessagesBox from "../components/MessageBox";
 import ProfileCard from "../components/ProfileCard";
 
 function Dashboard({setToken}) {
@@ -6,6 +7,7 @@ function Dashboard({setToken}) {
     <div>
         <ProfileCard/>
         <LogoutButton setToken={setToken}/>
+        <MessagesBox/>
     </div>
   );
 }

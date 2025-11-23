@@ -17,7 +17,7 @@ async function login(req, res) {
 
     // Checks user exists in database
     if (!user){
-        return res.status(400).json({ error: 'Incorrect username or password' });
+        return res.status(400).json({ error: 'User does not exist' });
     }
 
     // Checks entered password against password in database

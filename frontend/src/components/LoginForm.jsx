@@ -37,6 +37,7 @@ export default function Loginform() {
 
             console.log("Login successful. Token = ", data.token);
             localStorage.setItem("token", data.token);
+            localStorage.setItem("user", data.username);
         }
         catch (err) {
             setError("Error connecting to backend:", err);

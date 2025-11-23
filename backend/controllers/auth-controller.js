@@ -33,7 +33,7 @@ async function login(req, res) {
         { expiresIn: "1h" }
     );
 
-    return res.status(200).json({ token });
+    return res.status(200).json({ token, username });
 }
 
 module.exports = { login };

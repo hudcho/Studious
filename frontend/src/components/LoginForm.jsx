@@ -12,6 +12,7 @@ import { useState } from "react";
 export default function Loginform() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
 
     // runs when the user submits the form
     const handleSubmit = async (e) => {
@@ -30,16 +31,15 @@ export default function Loginform() {
             const data = await response.json();
             
             if (!response.ok) {
-                console.error("Login failed:", data.error);
+                setError(data.error);
                 return;
             }
 
             console.log("Login successful. Token = ", data.token);
-
             localStorage.setItem("token", data.token);
         }
         catch (err) {
-            console.error("Error connecting to backend:", err);
+            setError("Error connecting to backend:", err);
         }
    }
 
@@ -62,6 +62,7 @@ export default function Loginform() {
                 onChange={(e) => setPassword(e.target.value)}
             />
             <button type="submit">Login</button>
+            {error && <p className="error-message">{error}</p>}
         </form>
     )
 }

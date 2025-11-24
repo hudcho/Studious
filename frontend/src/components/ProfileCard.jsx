@@ -1,14 +1,17 @@
 function ProfileCard() {
-  const user = localStorage.getItem("user"); 
+  const username = localStorage.getItem("username"); 
+  const userId = localStorage.getItem("userID");
 
-  if (!user) return null;
+  if (!userId) return null;
   return (
     <div style={{
       padding: "10px",
-      background: "#2b2d31",
+      background: "#79a3f8ff",
       borderRadius: "6px"
     }}>
-      <strong>{user.username}</strong>
+      <strong>{username}</strong>
+      <br></br>
+      <strong>{userId}</strong>
     </div>
   );
 }

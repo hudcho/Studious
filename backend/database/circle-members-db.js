@@ -9,7 +9,7 @@ DESCRIPTION:
 const pool = require('./pool.js');
 
 // Adds a member to a circle by linking the circle_id and user_id
-async function createCircleMember(circle_id, user_id) {
+async function createCircleMember(user_id, circle_id) {
     const result = await pool.query(
         'INSERT INTO circle_members (circle_id, user_id) VALUES ($1, $2) RETURNING *',
         [circle_id, user_id]

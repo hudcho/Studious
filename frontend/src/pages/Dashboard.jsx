@@ -13,8 +13,8 @@ import ProfileCard from "../components/ProfileCard";
 
 function Dashboard({setToken}) {
     const currentUserID = Number(localStorage.getItem("userID"));
-    const recipientID = 1;
-    const circleID = null;
+    const recipientID = null;
+    const circleID = 4;
     return (
     <div style={{ position: "relative" }}>
         <LogoutButton setToken={setToken}/>

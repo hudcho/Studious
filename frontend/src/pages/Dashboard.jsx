@@ -24,6 +24,8 @@ function Dashboard({setToken}) {
         recipientID={recipientID}
         circleID={circleID}
         />
+
+        {/* Position in bottom right corner */}
         <div
             style={{
                 position: 'fixed',
@@ -31,7 +33,6 @@ function Dashboard({setToken}) {
                 left: '20px',
                 zIndex: '9999'
             }}>
-        {/* Position in bottom right corner */}
         <ProfileCard/>
         </div>
     </div>

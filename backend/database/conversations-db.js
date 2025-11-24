@@ -27,7 +27,7 @@ async function getConversations(user_id) {
       `,
       [user_id]
     );
-    return result.rows[0];
+    return result.rows;
 }
 
 module.exports = {

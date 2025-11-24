@@ -16,13 +16,24 @@ function Dashboard({setToken}) {
     const recipientID = 1;
     const circleID = null;
     return (
-    <div>
+    <div style={{ position: "relative" }}>
         <LogoutButton setToken={setToken}/>
+
         <Chat
         currentUserID={currentUserID}
         recipientID={recipientID}
         circleID={circleID}
         />
+        <div
+            style={{
+                position: 'fixed',
+                bottom: '20px',
+                left: '20px',
+                zIndex: '9999'
+            }}>
+        {/* Position in bottom right corner */}
+        <ProfileCard/>
+        </div>
     </div>
   );
 }

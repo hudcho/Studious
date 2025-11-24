@@ -1,4 +1,10 @@
-// Chat.jsx
+/* 
+AUTHOR: Hudson Cho
+CREATED: 11.22.2025
+UPDATED: 11.23.2025
+DESCRIPTION:
+    Chat component that renders MessageBox and MessageInput as one unit.
+*/
 import React from "react";
 import MessageBox from "./MessageBox";
 import MessageInput from "./MessageInput";

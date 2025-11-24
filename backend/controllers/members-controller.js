@@ -17,6 +17,7 @@ const membersDb = require('../database/circle-members-db');
 
 // Adds a member to a circle
 async function addMember(req, res) {
+    console.log(req.body);
     const { userID, circleID } = req.body;
     if(!userID || !circleID) {
         return res.status(400).json({ error: 'Missing one or more required fields'});

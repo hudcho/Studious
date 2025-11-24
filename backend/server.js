@@ -7,6 +7,7 @@ const messagesRoute = require('./routes/messages-route');
 const friendsRoute = require('./routes/friends-route');
 const membersRoute = require('./routes/members-route');
 const authRoute = require('./routes/auth-route');
+const convRoute = require('./routes/conversations-route');
 const cors = require('cors');
 
 const { setupSocket } = require('./controllers/socket-controller');
@@ -30,6 +31,7 @@ const io = new Server(server, {
 });
 
 const messagesDb = require('./database/messages-db');
+const { getConversations } = require('./database/conversations-db');
 
 //function setupSocket(io) {
 io.on('connection', (socket) => {
@@ -85,6 +87,10 @@ app.use('/members', membersRoute)
 
 // Route HTTP requests to /auth to auth-route
 app.use('/auth', authRoute)
+
+// Route HTTP requests to /conversations to conversations-route
+app.use('/conversations', convRoute);
+
 
 
 server.listen(PORT, () => {

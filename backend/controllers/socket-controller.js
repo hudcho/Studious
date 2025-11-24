@@ -1,4 +1,4 @@
-const messagesController = require('./messages-controller');
+const messagesController = require('../database/messages-db');
 
 function setupSocket(io) {
     io.on('connection', (socket) => {
@@ -9,24 +9,13 @@ function setupSocket(io) {
                 return socket.emit('messageError', { error: 'Missing required fields' });
             }
             try {
-                const fakeReq = {
-                    user: { id: message.senderID },
-                    body: {
-                        content: message.content,
-                        recipientID: message.recipientID,
-                        circleID: message.circleID
-                    }
-                };
-
-                const fakeRes = {
-                    status: (code) => ({
-                        json: (data) => data
-                    })
-                };
-
-                const savedMessage = await messagesController.sendMessage(fakeReq, fakeRes);
-
-                io.emit('recieveMessage', savedMessage);
+            const savedMessage = await messagesDb.createMessage(
+                message.content,
+                message.senderID,
+                message.recipientID || null,
+                message.circleID || null
+            );
+                io.emit('receiveMessage', savedMessage);
             }
             catch (err) {
                 console.error(err);

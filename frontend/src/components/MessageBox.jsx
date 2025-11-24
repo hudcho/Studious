@@ -49,27 +49,31 @@ export default function MessageBox({ currentUserID, recipientID, circleID }) {
 
   // retreive messages from socket.io as they are sent to the socket
   useEffect(() => {
-    socket.on("receiveMessage", (message) => {
+    const handleReceiveMessage = (message) => {
       // Only add relevant messages
       console.log("new mesage: ", message);
       // only show messages between two users
       if (
-        (recipientID && (
-            message.senderID === recipientID || 
-            message.recipientID === recipientID ||
-            message.senderID === currentUserID
-        )) ||
-        // only show messages of a specific circle
-        (circleID && message.circleID === circleID) 
-        ) {
-            setMessages((prev) => {
-                console.log("updating message fuck you: ", [...prev, message]);
-                return [...prev, message]});
+          (recipientID && (
+              message.sender_id === recipientID || 
+              message.recipient_id === recipientID ||
+              message.sender_id === currentUserID
+          )) || 
+          // only show messages of a specific circle
+          (circleID && message.circle_id === circleID)
+          ) {
+        setMessages((prev) => {
+          console.log("message being updated");
+          return [...prev, message]});
         }
-    });
+      }
 
-    return () => socket.off("receiveMessage");
-  }, [recipientID, circleID]);
+    socket.on("receiveMessage", handleReceiveMessage);
+
+    return () => {
+        socket.off("receiveMessage", handleReceiveMessage);
+    }
+  }, [currentUserID, recipientID, circleID]);
 
   // load messages top to bottom, updating messagesEndRef
   useEffect(() => {

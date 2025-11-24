@@ -38,7 +38,7 @@ export default function Loginform() {
                 // save token and username
                 localStorage.setItem("token", data.token);
                 localStorage.setItem("username", data.username);
-
+                localStorage.setItem("userID", data.id )
                 // optionally redirect
                 window.location.href = "/dashboard"; // or use React Router's useNavigate
             }

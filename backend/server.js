@@ -16,17 +16,54 @@ const PORT = 3000;
 
 const server = http.createServer(app);
 
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5000',
+    credentials: true
+}));
 app.use(express.json());
 
 const io = new Server(server, {
     cors: {
-        origin: 'http//localhost:3000',
+        origin: 'http://localhost:5000',
         methods: ['GET', 'POST' ]
     }
 });
 
-setupSocket;
+const messagesDb = require('./database/messages-db');
+
+//function setupSocket(io) {
+io.on('connection', (socket) => {
+    console.log("User connected: ", socket.id);
+    
+    socket.on('sendMessage', async (message) => {
+        console.log("message recieived: ", message);
+        if (!message || !message.senderID || !message.content || (!message.recipientID && !message.circleID)) {
+            return socket.emit('messageError', { error: 'Missing required fields' });
+        }
+        try {
+            console.log("message recieived: ", message);
+            const savedMessage = await messagesDb.createMessage(
+                message.content,
+                message.senderID,
+                message.recipientID || null,
+                message.circleID || null
+            );
+            io.emit('receiveMessage', savedMessage);
+        }
+        catch (err) {
+            console.error(err);
+            socket.emit('messageError', { error: err.message });
+        } 
+    });
+    socket.on('disconnect', () => {
+        console.log('User disconnected: ', socket.id);
+    });
+
+});
+
+//}
+
+//setupSocket;
 
 
 
@@ -50,6 +87,6 @@ app.use('/members', membersRoute)
 app.use('/auth', authRoute)
 
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`)
 });

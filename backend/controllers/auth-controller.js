@@ -14,7 +14,6 @@ const { JWT_SECRET } = require('../config/env');
 async function login(req, res) {
     const { username, password } = req.body;
     const user = await usersDb.getUserByUsername(username);
-
     // Checks user exists in database
     if (!user){
         return res.status(400).json({ error: 'User does not exist' });
@@ -33,7 +32,11 @@ async function login(req, res) {
         { expiresIn: "1h" }
     );
 
-    return res.status(200).json({ token, username });
+    return res.status(200).json({ 
+        token,
+        username: user.username,
+        id: user.id
+    });
 }
 
 module.exports = { login };

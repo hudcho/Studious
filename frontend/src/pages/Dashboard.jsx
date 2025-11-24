@@ -1,3 +1,11 @@
+/* 
+AUTHOR: Hudson Cho
+CREATED: 11.22.2025
+UPDATED: 11.23.2025
+DESCRIPTION:
+    Dashboard page that renders a users direct messages as well
+    as any circles they are a part of.
+*/
 import Chat from "../components/Chat";
 import LogoutButton from "../components/LogoutButton";
 import MessagesBox from "../components/MessageBox";

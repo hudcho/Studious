@@ -7,7 +7,7 @@ DESCRIPTION:
     MessageBox component that renders a box that users can scroll through 
     to see previous messages. On load it fetches messagse for the given
     conversation and loads them into a message box. Messages are dynamically
-    retreived from socket.io connection to support real time communication
+    retreived from socket.io connection to support real time communication.
 */
 import React, { useEffect, useState, useRef } from "react";
 

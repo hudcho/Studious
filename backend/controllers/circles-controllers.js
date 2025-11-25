@@ -51,7 +51,10 @@ async function createCircle(req, res) {
 
 
 
-        return res.status(201).json({ newCircle, members: addedMembers });
+        return res.status(201).json({ 
+            newCircle,
+            members: [createdBy, ...addedMembers]
+        });
     }
     catch (err) {
         console.error(err);

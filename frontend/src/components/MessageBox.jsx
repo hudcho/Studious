@@ -85,7 +85,7 @@ export default function MessageBox({ currentUserID, recipientID, circleID }) {
     <div style={{ height: "400px", overflowY: "scroll", border: "1px solid #ccc", padding: "10px" }}>
       {messages.map((msg) => (
         <div key={msg.id} style={{ marginBottom: "8px" }}>
-          <strong>{msg.senderID === currentUserID ? "You" : msg.senderID}:</strong> {msg.content}
+          <strong>{msg.sender_id === currentUserID ? "You" : msg.sender_username}:</strong> {msg.content}
         </div>
       ))}
       <div ref={messagesEndRef} />

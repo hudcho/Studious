@@ -7,13 +7,18 @@ DESCRIPTION:
 */
 
 const circlesDb = require('../database/circles-db');
+const membersDb = require('../database/circle-members-db')
+const usersDb = require('../database/users-db')
 
 // create circle
 async function createCircle(req, res) {
     const createdBy = req.user.id;
-    const { name  } = req.body;
+    const { name, members  } = req.body;
     if (!name) {
         return res.status(400).json({ error: 'Missing name field'});
+    }
+    if (!Array.isArray(members)) {
+        return res.status(400).json({ error: "'members' must be an array of usernames" });
     }
     
     try {
@@ -23,8 +28,30 @@ async function createCircle(req, res) {
             return res.status(400).json({ error: 'Circle name already taken'});
         } 
 
+        // Create new circle and add owner to circle
         const newCircle = await circlesDb.createCircle(name, createdBy);
-        return res.status(201).json(newCircle);
+        await membersDb.createCircleMember(createdBy, newCircle.id)
+
+
+        // Addes each member from members[] field into the circle
+        const addedMembers = [];
+        for (const username of members) {
+            const user = await usersDb.getUserByUsername(username);
+            if(!user) {
+                console.log(`User '${username}' not found - skipping`);
+                continue;
+            }
+
+            const existingMember = await membersDb.getByCircleAndUser(user.id, newCircle.id);
+            if (!existingMember) {
+                await membersDb.createCircleMember(user.id, newCircle.id);
+                addedMembers.push(user);
+            }
+        }
+
+
+
+        return res.status(201).json({ newCircle, members: addedMembers });
     }
     catch (err) {
         console.error(err);

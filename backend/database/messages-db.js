@@ -19,7 +19,17 @@ async function createMessage(content, sender_id, recipient_id=null, circle_id=nu
         'INSERT INTO messages (content, sender_id, recipient_id, circle_id) VALUES ($1, $2, $3, $4) RETURNING *',
         [content, sender_id, recipient_id, circle_id]
     );
-    return result.rows[0];
+    
+    const message = result.rows[0];
+
+    const userResult = await pool.query(
+        'SELECT username FROM users WHERE id = $1',
+        [message.sender_id]
+    );
+
+    message.sender_username = userResult.rows[0].username;
+
+    return message;
 }
 
 // Retreives all messages sent between sender_id and recipient_id 

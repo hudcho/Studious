@@ -25,7 +25,15 @@ async function createMessage(content, sender_id, recipient_id=null, circle_id=nu
 // Retreives all messages sent between sender_id and recipient_id 
 async function getDirectMessages(sender_id, recipient_id) {
     const result = await pool.query(
-        'SELECT * FROM messages WHERE (sender_id=$1 AND recipient_id=$2) OR (sender_id=$2 AND recipient_id=$1) ORDER BY sent_at ASC',
+        `
+        SELECT 
+            m.*, 
+            u.username AS sender_username
+        FROM messages m
+        JOIN users u ON u.id = m.sender_id
+        WHERE (m.sender_id=$1 AND m.recipient_id=$2) OR (m.sender_id=$2 AND m.recipient_id=$1)
+        ORDER BY m.sent_at ASC
+        `,
         [sender_id, recipient_id]
     );
     return result.rows;
@@ -34,7 +42,15 @@ async function getDirectMessages(sender_id, recipient_id) {
 // Retreives all messages sent to circle_id
 async function getCircleMessages(circle_id) {
     const result = await pool.query(
-        'SELECT * FROM messages WHERE circle_id=$1 ORDER BY sent_at ASC',
+        `
+        SELECT 
+            m.*,
+            u.username AS sender_username
+        FROM messages m
+        JOIN users u ON u.id = m.sender_id
+        WHERE m.circle_id=$1
+        ORDER BY m.sent_at ASC
+        `,
         [circle_id]
     )
     return result.rows;

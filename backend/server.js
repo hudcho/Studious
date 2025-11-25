@@ -10,6 +10,7 @@ const authRoute = require('./routes/auth-route');
 const convRoute = require('./routes/conversations-route');
 const cors = require('cors');
 
+const usersDb = require('./database/users-db');
 const { setupSocket } = require('./controllers/socket-controller');
 
 const app = express();
@@ -38,6 +39,8 @@ io.on('connection', (socket) => {
     console.log("User connected: ", socket.id);
     
     socket.on('sendMessage', async (message) => {
+
+
         console.log("message recieived: ", message);
         if (!message || !message.senderID || !message.content || (!message.recipientID && !message.circleID)) {
             return socket.emit('messageError', { error: 'Missing required fields' });

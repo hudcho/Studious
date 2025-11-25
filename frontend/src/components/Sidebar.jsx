@@ -1,6 +1,7 @@
 import React from "react";
+import ProfileCard from "./ProfileCard";
 
-export default function Sidebar({ conversations, selectedConversation, onSelectConversation }) {
+export default function Sidebar({ conversations, selectedConversation, onSelectConversation, onNewMessage }) {
   return (
     <div style={{
       width: "300px",
@@ -35,9 +36,19 @@ export default function Sidebar({ conversations, selectedConversation, onSelectC
                 {conv.lastmessage || "No messages yet"}
               </div>
             )}
+
           </div>
+          
         );
-      })}
+        })}
+      <div style={{ padding: '10px', borderBottom: '1px solid #eee', zIndex: '9999'}}>
+      <button
+        onClick={() => onNewMessage?.()}
+        style={{ width: '100%', padding: '8px', cursor: 'pointer' }}
+      >
+        + New Message
+      </button>
+    </div>
     </div>
   );
 }

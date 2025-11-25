@@ -11,11 +11,15 @@ import Chat from "../components/Chat";
 import LogoutButton from "../components/LogoutButton";
 import ProfileCard from "../components/ProfileCard";
 import Sidebar from "../components/Sidebar";
+import NewMessageForm from "../components/NewMessageForm";
 
 function Dashboard({setToken}) {
     const currentUserID = Number(localStorage.getItem("userID"));
     const [conversations, setConversations] = useState([]);
     const [selectedConversation, setSelectedConversation] = useState(null);
+    const [showNewMessageForm, setShowNewMessageForm] = useState(false);
+
+
 
     useEffect(() => {
         async function fetchConversations() {
@@ -32,6 +36,41 @@ function Dashboard({setToken}) {
         }
         fetchConversations();
     }, []);
+    const handleSendNewMessage = async (username, message) => {
+        try {
+            const res = await fetch('http://localhost:3000/messages/direct', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            body: JSON.stringify({ recipientUsername: username, content: message }),
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+            // Optionally: refresh conversations to include the new DM
+            const updatedConversations = await fetch('http://localhost:3000/conversations', {
+                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+            }).then(r => r.json());
+            setConversations(Array.isArray(updatedConversations) ? updatedConversations : []);
+            
+            // Optionally select the new conversation
+            const newConv = updatedConversations.find(
+                c => c.type === 'dm' && c.otherUserID === data.recipientID
+            );
+
+            if (newConv) setSelectedConversation(newConv);
+
+            setShowNewMessageForm(false); // Close the form
+            } else {
+            console.error(data);
+            }
+        } catch (err) {
+            console.error(err);
+    }
+    };
 
     return (
     <div style={{ display: "flex" }}>
@@ -39,7 +78,14 @@ function Dashboard({setToken}) {
             conversations={conversations}
             selectedConversation={selectedConversation}
             onSelectConversation={setSelectedConversation}
+            onNewMessage={() => setShowNewMessageForm(true)}
         />
+    {showNewMessageForm && (
+        <NewMessageForm 
+            onSend={handleSendNewMessage} 
+            onClose={() => setShowNewMessageForm(false)} 
+        />
+    )}
         <div style={{ position: "relative" }}>
             <div
                 style= {{ 
@@ -55,10 +101,13 @@ function Dashboard({setToken}) {
             />
             </div>
 
+            
+
             {/* Position in bottom right corner */}
             <div
                 style={{
                     position: 'fixed',
+                    width: '260px',
                     bottom: '20px',
                     left: '20px',
                     zIndex: '9999'
@@ -67,6 +116,7 @@ function Dashboard({setToken}) {
                 <LogoutButton setToken={setToken}/>
             </div>
         </div>
+
     </div>
   );
 }

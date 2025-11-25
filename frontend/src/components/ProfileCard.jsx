@@ -9,9 +9,9 @@ function ProfileCard() {
       background: "#79a3f8ff",
       borderRadius: "6px"
     }}>
-      <strong>{username}</strong>
+      Logged in as: <strong>{username}</strong>
       <br></br>
-      <strong>{userId}</strong>
+      UserID: <strong>{userId}</strong>
     </div>
   );
 }

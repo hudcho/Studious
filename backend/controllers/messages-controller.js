@@ -15,13 +15,19 @@ DESCRIPTION:
 */
 
 
+const usersDb = require ('../database/users-db');
 const messagesDb = require ('../database/messages-db');
 
 // Creates a message and validates its properties
 async function sendMessage(req, res) {
     const senderID = req.user.id;
-    const { content, recipientID, circleID } = req.body;
+    let { content, recipientID, recipientUsername, circleID } = req.body;
 
+    if (!recipientID && recipientUsername) {
+        const user = await usersDb.getUserByUsername(recipientUsername);
+        if (!user) return res.status(404).json({ error: 'Recipient not found' });
+        recipientID = user.id;
+    }
     if(!senderID || (!recipientID && !circleID)) {
         return res.status(400).json({ error: 'Missing one or more required fields'});
     }

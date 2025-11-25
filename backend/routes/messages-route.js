@@ -14,6 +14,9 @@ const authenticateToken = require('../middleware/auth');
 // Route POST requests to sendMessage()
 router.post('/', authenticateToken, messagesController.sendMessage);
 
+// Route POST requests to sendMessage()
+router.post('/direct', authenticateToken, messagesController.sendMessage);
+
 // Route GET for retrieving direct messages between two users 
 router.get('/direct/', authenticateToken, messagesController.getDirectMessages);
 

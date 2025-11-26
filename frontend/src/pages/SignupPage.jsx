@@ -7,15 +7,13 @@ DESCRIPTION:
 */
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import LoginForm from "../components/LoginForm";
+import SignupForm from "../components/SignUpForm";
 
-export default function LoginPage() {
-  const navigate = useNavigate();
+export default function SignupPage() {
+  const navigate = useNavigate(); // <-- you were missing this
 
   return (
     <div style={{ position: "relative", height: "100vh" }}>
-      <LoginForm />
-
       <button
         onClick={() => navigate("/")}
         style={{
@@ -32,6 +30,8 @@ export default function LoginPage() {
       >
         ← Back
       </button>
+
+      <SignupForm />
     </div>
   );
 }

@@ -50,29 +50,21 @@ export default function MessageBox({ currentUserID, recipientID, circleID }) {
   // retreive messages from socket.io as they are sent to the socket
   useEffect(() => {
     const handleReceiveMessage = (message) => {
-      // Only add relevant messages
-      console.log("new mesage: ", message);
-      // only show messages between two users
-      if (
-          (recipientID && (
-              message.sender_id === recipientID || 
-              message.recipient_id === recipientID ||
-              message.sender_id === currentUserID
-          )) || 
-          // only show messages of a specific circle
-          (circleID && message.circle_id === circleID)
-          ) {
-        setMessages((prev) => {
-          console.log("message being updated");
-          return [...prev, message]});
-        }
-      }
-
-    socket.on("receiveMessage", handleReceiveMessage);
-
-    return () => {
-        socket.off("receiveMessage", handleReceiveMessage);
+    // Circle messages
+    if (circleID && message.circle_id === circleID) {
+      setMessages(prev => [...prev, message]);
     }
+    // Direct messages
+    else if (recipientID && (
+      (message.sender_id === recipientID && message.recipient_id === currentUserID) ||
+      (message.sender_id === currentUserID && message.recipient_id === recipientID)
+    )) {
+      setMessages(prev => [...prev, message]);
+    }
+    // Otherwise ignore
+  };
+
+  socket.on("receiveMessage", handleReceiveMessage);
   }, [currentUserID, recipientID, circleID]);
 
   // load messages top to bottom, updating messagesEndRef
@@ -82,7 +74,8 @@ export default function MessageBox({ currentUserID, recipientID, circleID }) {
 
   // display all messages newest to oldest in the chat box
   return (
-    <div style={{ height: "400px", overflowY: "scroll", border: "1px solid #ccc", padding: "10px" }}>
+<div style={{ flex: 1, overflowY: "scroll", border: "1px solid #000000ff", padding: "10px", minHeight: 0, backgroundColor: '#d6d6d6'}}>
+
       {messages.map((msg) => (
         <div key={msg.id} style={{ marginBottom: "8px" }}>
           <strong>{msg.sender_id === currentUserID ? "You" : msg.sender_username}:</strong> {msg.content}

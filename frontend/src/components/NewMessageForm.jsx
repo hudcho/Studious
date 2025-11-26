@@ -16,9 +16,9 @@ export default function NewMessageForm({ onSend, onClose }) {
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%)',
-      backgroundColor: '#fff',
+      backgroundColor: '#5d76a7ff',
       padding: '20px',
-      border: '1px solid #ccc',
+      border: '1px solid #000000ff',
       borderRadius: '8px',
       zIndex: 20000,
     }}>

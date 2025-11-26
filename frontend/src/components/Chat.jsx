@@ -11,7 +11,7 @@ import MessageInput from "./MessageInput";
 
 export default function Chat({ currentUserID, recipientID, circleID }) {
   return (
-    <div style={{ width: "400px", margin: "auto" }}>
+    <div style={{ display: "flex", flexDirection: "column", flex: 1, padding: "10px", minHeight: 0 }}>
       <MessageBox currentUserID={currentUserID} recipientID={recipientID} circleID={circleID} />
       <MessageInput currentUserID={currentUserID} recipientID={recipientID} circleID={circleID} />
     </div>

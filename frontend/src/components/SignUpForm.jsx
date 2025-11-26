@@ -1,15 +1,6 @@
-/* 
-AUTHOR: Hudson Cho
-CREATED: 11.20.2025
-UPDATED: 11.20.2025
-DESCRIPTION:
-    LoginForm component: renders username/password input fields and handles
-    form submissions for login
-*/
-
 import { useState } from "react";
 
-export default function LoginForm() {
+export default function SignupForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -17,7 +8,7 @@ export default function LoginForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3000/auth/login", {
+      const response = await fetch("http://localhost:3000/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
@@ -29,10 +20,22 @@ export default function LoginForm() {
         setError(data.error);
         return;
       }
+const loginRes = await fetch("http://localhost:3000/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
+    const loginData = await loginRes.json();
 
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("username", data.username);
-      localStorage.setItem("userID", data.id);
+    if (!loginRes.ok) {
+      setError(loginData.error);
+      return;
+    }
+
+      // Optionally log them in immediately after signup
+      localStorage.setItem("token", loginData.token);
+      localStorage.setItem("username", loginData.username);
+      localStorage.setItem("userID", loginData.id);
 
       window.location.href = "/dashboard"; // or useNavigate
     } catch (err) {
@@ -44,9 +47,9 @@ export default function LoginForm() {
     <div
       style={{
         display: "flex",
-        justifyContent: "center", // horizontal centering
-        alignItems: "center",     // vertical centering
-        height: "100vh",          // full viewport height
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
         backgroundColor: "#040454d4",
       }}
     >
@@ -64,8 +67,17 @@ export default function LoginForm() {
           minWidth: "300px",
         }}
       >
-            {/* Add the heading */}
-        <h1 style={{ fontFamily: "Arial, sans-serif", marginBottom: "20px", textAlign: 'center', width: '100%' }}>Studious</h1>
+        <h1
+          style={{
+            fontFamily: "Arial, sans-serif",
+            marginBottom: "20px",
+            textAlign: "center",
+            width: "100%",
+          }}
+        >
+          Studious
+        </h1>
+
         <input
           type="text"
           placeholder="Username"
@@ -83,7 +95,7 @@ export default function LoginForm() {
         />
 
         <button type="submit" style={{ padding: "10px", cursor: "pointer" }}>
-          Login
+          Sign Up
         </button>
 
         {error && (

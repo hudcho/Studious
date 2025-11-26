@@ -31,12 +31,19 @@ export default function MessageInput({ currentUserID, recipientID, circleID }) {
   };
 
   return (
-    <div style={{ display: "flex", marginTop: "10px" }}>
+    <div style={{ 
+        display: "flex",
+        marginTop: "10px",
+        padding: "10px",
+        borderRadius: "8px", // match login page background
+        gap: "10px",
+    }}>
+
       <input
         type="text"
         value={content}
         onChange={(e) => setContent(e.target.value)}
-        style={{ flex: 1, padding: "8px" }}
+        style={{ flex: 1, padding: "8px", backgroundColor: "#d6d6d6"}}
         placeholder="Type a message..."
       />
       <button onClick={handleSend} style={{ padding: "8px 12px" }}>

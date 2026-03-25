@@ -1,4 +1,5 @@
 # Studious 
+Real time communication app created using JavaScript and React.
 
 ## Placeholder
 
